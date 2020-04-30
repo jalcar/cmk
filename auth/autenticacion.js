@@ -15,8 +15,18 @@ const autenticacion = async() => {
     if (!resp.data) {
         throw new Error(`Error en Autenticación. ${resp.response.data.errors[0].description}`);
     } else {
-        return true;
+        let cokies = getCokies(resp.headers['set-cookie']);
+        return cokies;
     }
+};
+
+const getCokies = (p_ArrayCokies) => {
+    let arrayCokies = [];
+    p_ArrayCokies.forEach(cokie => {
+        let dataCokie = cokie.split('; ');
+        arrayCokies.push(dataCokie[0]);
+    });
+    return arrayCokies.join('; ');
 };
 
 module.exports = {
